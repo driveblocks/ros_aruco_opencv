@@ -2,6 +2,11 @@
 Changelog for package aruco_opencv
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix erroneous retrieval of intrinsic matrix of rectified images from camera_info P matrix (`#45 <https://github.com/fictionlab/aruco_opencv/issues/45>`_)
+* Contributors: Sandip Das
+
 0.4.0 (2023-11-30)
 ------------------
 * Support rectified images
