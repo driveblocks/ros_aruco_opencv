@@ -255,7 +255,7 @@ private:
 
     if (image_is_rectified_) {
       for (int i = 0; i < 9; ++i)
-        camera_matrix_.at<double>(i / 3, i % 3) = cam_info.P[i];
+        camera_matrix_.at<double>(i / 3, i % 3) = cam_info.P[i + i/3];
     } else {
       for (int i = 0; i < 9; ++i)
         camera_matrix_.at<double>(i / 3, i % 3) = cam_info.K[i];
