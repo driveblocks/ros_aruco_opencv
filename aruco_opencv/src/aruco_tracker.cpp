@@ -176,10 +176,8 @@ public:
       cam_base_topic_, this->get_name(), this->get_namespace());
     std::string cam_info_topic = image_transport::getCameraInfoTopic(image_topic);
 
-    cam_info_sub_ = create_subscription<sensor_msgs::msg::CameraInfo>(
-      cam_info_topic, 1,
-      std::bind(&ArucoTracker::callback_camera_info, this, std::placeholders::_1));
-
+    // move qos profile config up here to ensure that camera info subscriber has the same,
+    // compatible qos profile as the camera image subscribers
     rmw_qos_profile_t image_sub_qos = rmw_qos_profile_default;
     image_sub_qos.reliability =
       static_cast<rmw_qos_reliability_policy_t>(image_sub_qos_reliability_);
@@ -188,9 +186,13 @@ public:
 
     auto qos = rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(image_sub_qos), image_sub_qos);
 
+    cam_info_sub_ = create_subscription<sensor_msgs::msg::CameraInfo>(
+      cam_info_topic, qos,
+      std::bind(&ArucoTracker::callback_camera_info, this, std::placeholders::_1));
+
     if (image_sub_compressed_) {
       compressed_img_sub_ = create_subscription<sensor_msgs::msg::CompressedImage>(
-        image_topic + "/compressed", qos, std::bind(
+        image_topic, qos, std::bind(
           &ArucoTracker::callback_compressed_image, this, std::placeholders::_1));
     } else {
       img_sub_ = create_subscription<sensor_msgs::msg::Image>(
