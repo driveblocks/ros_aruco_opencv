@@ -1,0 +1,4 @@
+img2pdf==0.5.1
+# API changed for 4.7.x. Internally, we still use 4.6.x
+# https://stackoverflow.com/questions/74964527/attributeerror-module-cv2-aruco-has-no-attribute-dictionary-get
+opencv-python==4.7.0.72

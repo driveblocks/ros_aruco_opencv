@@ -113,7 +113,11 @@ def main():
     for marker_id in args.id:
         print(f"Generating marker with ID {marker_id}...")
         marker = np.zeros((marker_side_pixels, marker_side_pixels), dtype="uint8")
-        cv2.aruco.drawMarker(
+        # NOTE:
+        # OpenCV 4.7.0 brought few changes in API. generateImageMarker() should
+        # be used instead of drawMarker(). See:
+        # https://stackoverflow.com/questions/77590669/drawmarker-in-cv2-aruco-not-found
+        cv2.aruco.generateImageMarker(
             aruco_dict, marker_id, marker_side_pixels, marker, args.border_bits
         )
         if args.margin_pixels > 0:
